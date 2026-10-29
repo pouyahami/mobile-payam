@@ -1,28 +1,59 @@
 # Mobix — Smartphone Storefront
 
-A Persian (RTL), responsive storefront concept with a premium/futuristic visual direction.
+فروشگاه مفهومی موبایل با طراحی پریمیوم، فارسی و RTL.
 
-## Current scope
-- Responsive homepage and product discovery UI
-- Dedicated Apple, Samsung and Xiaomi brand landing pages with unique titles, descriptions, canonicals, Open Graph metadata and CollectionPage JSON-LD
-- Four initial product detail page templates with Product JSON-LD and links from the homepage product cards
-- Brand landing pages included in the sitemap and linked from homepage brand tiles
-- Search by product name/brand and brand filters
-- Mobile navigation
-- Demo cart interactions (no checkout or persistence)
-- Basic SEO foundation: Persian document language, metadata, canonical placeholder, Open Graph, WebSite JSON-LD, robots.txt, sitemap.xml
-- Accessible labels, keyboard skip link, reduced-motion support
+**Live preview:** https://mobile-payam.pages.dev/
 
-## Preview locally
-Open `index.html` in a browser or serve this folder with any static HTTP server.
+## ویژگی‌های فعلی
 
-## Before production
-1. Replace every `https://example.com` placeholder with the verified production domain.
-2. Replace sample product content and remote demo images with real inventory, verified specs, current prices and locally optimized product images.
-3. Implement product detail/category URLs and server-side rendering or static generation for indexable pages.
-4. Connect inventory, admin/catalog management, cart persistence, checkout, shipping, payment, order emails and customer support.
-5. Add real business details, policies, contact details and trust information.
-6. Validate structured data, canonical URLs, sitemap, robots.txt, Core Web Vitals and mobile rendering in Google Search Console.
-7. Review all images/licenses, accessibility, browser compatibility and security before launch.
+- صفحه اصلی ریسپانسیو با هیرو، فیلتر برند و جستجوی فارسی
+- صفحات اختصاصی برند (Apple / Samsung / Xiaomi)
+- صفحات جزئیات محصول با JSON-LD
+- **سبد خرید پایدار** (localStorage) + کشوی سبد
+- **مقایسه تا ۳ محصول**
+- **علاقه‌مندی‌ها (Wishlist)**
+- قیمت‌های نمونه واقع‌گرایانه
+- SEO پایه: متا، Open Graph، WebSite/Product JSON-LD، sitemap، robots.txt
+- دسترسی‌پذیری: skip-link، aria، reduced-motion
+- طراحی تاریک مدرن با حس futuristic
 
-This repository currently contains a static design prototype. It does not process orders, accept payment, or provide a live product catalog.
+## ساختار
+
+```
+index.html          # صفحه اصلی
+app.js              # منطق جستجو، فیلتر، سبد، مقایسه، wishlist
+styles.css          # استایل‌های اصلی
+catalog.css         # استایل‌های صفحات کاتالوگ/محصول
+brands/             # صفحات برند
+products/           # صفحات جزئیات محصول
+phones/             # فهرست کامل گوشی‌ها
+sitemap.xml
+robots.txt
+```
+
+## اجرا محلی
+
+هر فایل را مستقیم در مرورگر باز کنید یا با سرور استاتیک سرو کنید:
+
+```bash
+npx serve .
+# یا
+python3 -m http.server 8080
+```
+
+## قبل از پروداکشن
+
+1. دامنه canonical را از `https://example.com` / `mobile-payam.pages.dev` به دامنه نهایی تغییر دهید.
+2. تصاویر را از GSMArena به تصاویر بهینه‌شده و محلی منتقل کنید.
+3. قیمت‌ها را به قیمت روز واقعی وصل کنید (API یا پنل ادمین).
+4. بک‌اند برای موجودی، سفارش، پرداخت و حساب کاربری اضافه کنید.
+5. سیاست‌ها، تماس، آدرس و اطلاعات کسب‌وکار را کامل کنید.
+6. در Google Search Console اعتبارسنجی کنید.
+
+## وضعیت فعلی
+
+این مخزن یک **پروتوتایپ طراحی + تعامل سمت‌کلاینت** است. هنوز سفارش واقعی، پرداخت یا موجودی زنده ندارد. سبد خرید و علاقه‌مندی‌ها فقط در مرورگر کاربر ذخیره می‌شوند.
+
+---
+
+ساخته‌شده با تمرکز روی تجربه کاربری فارسی و موبایل‌فرست.

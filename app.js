@@ -8,17 +8,170 @@
   const toast = document.querySelector("#toast");
   const menu = document.querySelector(".main-nav");
   const menuToggle = document.querySelector("#menuToggle");
+  const cartDrawer = document.querySelector("#cartDrawer");
+  const cartOverlay = document.querySelector("#cartOverlay");
+  const cartItemsEl = document.querySelector("#cartItems");
+  const cartTotalEl = document.querySelector("#cartTotal");
+  const compareBar = document.querySelector("#compareBar");
+  const compareList = document.querySelector("#compareList");
+  const compareCount = document.querySelector("#compareCount");
+
   let activeBrand = "all";
-  let cartItems = 0;
   let toastTimer;
 
+  // ---------- Helpers ----------
   const faDigits = value => String(value).replace(/\d/g, digit => "۰۱۲۳۴۵۶۷۸۹"[Number(digit)]);
-  function notify(message) {
+  const faPrice = n => faDigits(n.toLocaleString("fa-IR")) + " میلیون تومان";
+
+  function notify(message, duration = 2800) {
+    if (!toast) return;
     toast.textContent = message;
     toast.classList.add("show");
     window.clearTimeout(toastTimer);
-    toastTimer = window.setTimeout(() => toast.classList.remove("show"), 2600);
+    toastTimer = window.setTimeout(() => toast.classList.remove("show"), duration);
   }
+
+  // ---------- Cart (localStorage) ----------
+  const CART_KEY = "mobix_cart_v1";
+  const WISH_KEY = "mobix_wish_v1";
+  const COMPARE_KEY = "mobix_compare_v1";
+
+  function loadCart() {
+    try { return JSON.parse(localStorage.getItem(CART_KEY) || "[]"); }
+    catch { return []; }
+  }
+  function saveCart(items) {
+    localStorage.setItem(CART_KEY, JSON.stringify(items));
+  }
+  function loadWish() {
+    try { return new Set(JSON.parse(localStorage.getItem(WISH_KEY) || "[]")); }
+    catch { return new Set(); }
+  }
+  function saveWish(set) {
+    localStorage.setItem(WISH_KEY, JSON.stringify([...set]));
+  }
+  function loadCompare() {
+    try { return JSON.parse(localStorage.getItem(COMPARE_KEY) || "[]"); }
+    catch { return []; }
+  }
+  function saveCompare(list) {
+    localStorage.setItem(COMPARE_KEY, JSON.stringify(list));
+  }
+
+  let cart = loadCart();
+  let wishlist = loadWish();
+  let compare = loadCompare();
+
+  function updateCartBadge() {
+    const totalQty = cart.reduce((s, i) => s + i.qty, 0);
+    if (cartCount) cartCount.textContent = faDigits(totalQty);
+  }
+
+  function renderCart() {
+    updateCartBadge();
+    if (!cartItemsEl) return;
+
+    if (cart.length === 0) {
+      cartItemsEl.innerHTML = `<div class="cart-empty">سبد خرید خالی است.<br><small>محصولات مورد علاقه را اضافه کنید.</small></div>`;
+      if (cartTotalEl) cartTotalEl.textContent = "۰";
+      return;
+    }
+
+    let total = 0;
+    cartItemsEl.innerHTML = cart.map(item => {
+      const price = item.price || 0;
+      total += price * item.qty;
+      return `
+        <div class="cart-item" data-id="${item.id}">
+          <div class="cart-item-info">
+            <strong>${item.name}</strong>
+            <span>${faPrice(price)}</span>
+          </div>
+          <div class="cart-item-actions">
+            <button class="qty-btn" data-action="dec" aria-label="کاهش">−</button>
+            <span class="qty">${faDigits(item.qty)}</span>
+            <button class="qty-btn" data-action="inc" aria-label="افزایش">+</button>
+            <button class="remove-btn" data-action="remove" aria-label="حذف">×</button>
+          </div>
+        </div>`;
+    }).join("");
+
+    if (cartTotalEl) cartTotalEl.textContent = faPrice(total);
+  }
+
+  function openCart() {
+    cartDrawer?.classList.add("open");
+    cartOverlay?.classList.add("open");
+    document.body.style.overflow = "hidden";
+  }
+  function closeCart() {
+    cartDrawer?.classList.remove("open");
+    cartOverlay?.classList.remove("open");
+    document.body.style.overflow = "";
+  }
+
+  function addToCart(name, price = 0, id = name) {
+    const existing = cart.find(i => i.id === id);
+    if (existing) existing.qty += 1;
+    else cart.push({ id, name, price, qty: 1 });
+    saveCart(cart);
+    renderCart();
+    notify(`«${name}» به سبد اضافه شد`);
+  }
+
+  // ---------- Compare ----------
+  function updateCompareUI() {
+    if (!compareBar || !compareList) return;
+    if (compare.length === 0) {
+      compareBar.classList.remove("visible");
+      return;
+    }
+    compareBar.classList.add("visible");
+    if (compareCount) compareCount.textContent = faDigits(compare.length);
+    compareList.innerHTML = compare.map(item =>
+      `<span class="compare-chip" data-id="${item.id}">${item.name} <button data-remove-compare="${item.id}" aria-label="حذف">×</button></span>`
+    ).join("");
+  }
+
+  function toggleCompare(name, id = name) {
+    const idx = compare.findIndex(i => i.id === id);
+    if (idx >= 0) {
+      compare.splice(idx, 1);
+      notify(`«${name}» از مقایسه حذف شد`);
+    } else {
+      if (compare.length >= 3) {
+        notify("حداکثر ۳ محصول برای مقایسه می‌توانید انتخاب کنید");
+        return;
+      }
+      compare.push({ id, name });
+      notify(`«${name}» به مقایسه اضافه شد`);
+    }
+    saveCompare(compare);
+    updateCompareUI();
+    // Update button states on cards
+    document.querySelectorAll("[data-compare]").forEach(btn => {
+      const isActive = compare.some(c => c.id === btn.dataset.compare);
+      btn.classList.toggle("active", isActive);
+      btn.setAttribute("aria-pressed", String(isActive));
+    });
+  }
+
+  // ---------- Wishlist ----------
+  function toggleWish(name, id = name) {
+    if (wishlist.has(id)) {
+      wishlist.delete(id);
+      notify(`«${name}» از علاقه‌مندی‌ها حذف شد`);
+    } else {
+      wishlist.add(id);
+      notify(`«${name}» به علاقه‌مندی‌ها اضافه شد`);
+    }
+    saveWish(wishlist);
+    document.querySelectorAll(`[data-wish="${id}"]`).forEach(btn => {
+      btn.classList.toggle("active", wishlist.has(id));
+    });
+  }
+
+  // ---------- Filter & Search ----------
   function filterProducts() {
     const term = (search?.value || "").trim().toLocaleLowerCase("fa");
     let visible = 0;
@@ -33,7 +186,10 @@
     if (resultCount) resultCount.textContent = faDigits(visible) + " انتخاب";
     if (emptyState) emptyState.hidden = visible !== 0;
   }
+
+  // ---------- Event listeners ----------
   search?.addEventListener("input", filterProducts);
+
   filters.forEach(button => button.addEventListener("click", () => {
     activeBrand = button.dataset.filter || "all";
     filters.forEach(item => {
@@ -43,6 +199,7 @@
     });
     filterProducts();
   }));
+
   document.querySelector("#clearFilters")?.addEventListener("click", event => {
     event.preventDefault();
     activeBrand = "all";
@@ -55,23 +212,106 @@
     filterProducts();
     document.querySelector("#products")?.scrollIntoView({ behavior: "smooth" });
   });
+
   document.querySelector("#focusSearch")?.addEventListener("click", () => {
     search?.focus();
     search?.scrollIntoView({ behavior: "smooth", block: "center" });
   });
-  document.querySelectorAll("[data-add]").forEach(button => button.addEventListener("click", () => {
-    cartItems += 1;
-    if (cartCount) cartCount.textContent = faDigits(cartItems);
-    notify("«" + button.dataset.add + "» به سبد نمایشی اضافه شد. برای خرید واقعی، اتصال فروشگاه لازم است.");
-  }));
-  document.querySelector("#cartButton")?.addEventListener("click", () => {
-    notify(cartItems ? "تعداد " + faDigits(cartItems) + " کالا در سبد نمایشی است؛ پرداخت هنوز فعال نیست." : "سبد نمایشی تو خالی است.");
+
+  // Add to cart buttons
+  document.querySelectorAll("[data-add]").forEach(button => {
+    button.addEventListener("click", e => {
+      e.preventDefault();
+      const name = button.dataset.add;
+      const price = Number(button.dataset.price || 0);
+      const id = button.dataset.id || name;
+      addToCart(name, price, id);
+    });
   });
+
+  // Cart open/close
+  document.querySelector("#cartButton")?.addEventListener("click", openCart);
+  document.querySelector("#closeCart")?.addEventListener("click", closeCart);
+  cartOverlay?.addEventListener("click", closeCart);
+
+  // Cart item actions (event delegation)
+  cartItemsEl?.addEventListener("click", e => {
+    const btn = e.target.closest("[data-action]");
+    if (!btn) return;
+    const itemEl = btn.closest(".cart-item");
+    const id = itemEl?.dataset.id;
+    if (!id) return;
+    const item = cart.find(i => i.id === id);
+    if (!item) return;
+
+    const action = btn.dataset.action;
+    if (action === "inc") item.qty += 1;
+    else if (action === "dec") {
+      item.qty -= 1;
+      if (item.qty <= 0) cart = cart.filter(i => i.id !== id);
+    } else if (action === "remove") {
+      cart = cart.filter(i => i.id !== id);
+    }
+    saveCart(cart);
+    renderCart();
+  });
+
+  // Clear cart
+  document.querySelector("#clearCart")?.addEventListener("click", () => {
+    cart = [];
+    saveCart(cart);
+    renderCart();
+    notify("سبد خرید خالی شد");
+  });
+
+  // Compare buttons
+  document.querySelectorAll("[data-compare]").forEach(btn => {
+    const id = btn.dataset.compare;
+    if (compare.some(c => c.id === id)) btn.classList.add("active");
+    btn.addEventListener("click", e => {
+      e.preventDefault();
+      toggleCompare(btn.dataset.compareName || id, id);
+    });
+  });
+
+  // Remove from compare bar
+  compareList?.addEventListener("click", e => {
+    const btn = e.target.closest("[data-remove-compare]");
+    if (!btn) return;
+    const id = btn.dataset.removeCompare;
+    const item = compare.find(c => c.id === id);
+    if (item) toggleCompare(item.name, id);
+  });
+
+  document.querySelector("#clearCompare")?.addEventListener("click", () => {
+    compare = [];
+    saveCompare(compare);
+    updateCompareUI();
+    document.querySelectorAll("[data-compare]").forEach(btn => {
+      btn.classList.remove("active");
+      btn.setAttribute("aria-pressed", "false");
+    });
+    notify("لیست مقایسه پاک شد");
+  });
+
+  // Wishlist buttons
+  document.querySelectorAll("[data-wish]").forEach(btn => {
+    const id = btn.dataset.wish;
+    if (wishlist.has(id)) btn.classList.add("active");
+    btn.addEventListener("click", e => {
+      e.preventDefault();
+      toggleWish(btn.dataset.wishName || id, id);
+    });
+  });
+
+  // Brand quick links
   document.querySelectorAll("[data-brand-link]").forEach(link => link.addEventListener("click", () => {
     const brand = link.dataset.brandLink;
     const button = filters.find(item => item.dataset.filter === brand);
     if (button) button.click();
   }));
+
+  // Mobile menu
   menuToggle?.addEventListener("click", () => {
     const open = menu?.classList.toggle("open") || false;
     menuToggle.setAttribute("aria-expanded", String(open));
@@ -80,7 +320,13 @@
     menu.classList.remove("open");
     menuToggle?.setAttribute("aria-expanded", "false");
   }));
+
+  // Year
   const year = document.querySelector("#year");
   if (year) year.textContent = faDigits(new Date().getFullYear());
+
+  // Init
+  renderCart();
+  updateCompareUI();
   filterProducts();
 })();
