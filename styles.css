@@ -1,1 +1,17 @@
-/* full styles will be injected */
+/* See visual_patch - temporary until full restore */
+:root{color-scheme:dark;--bg:#0b0d12;--panel:#11151e;--text:#f4f6fb;--muted:#a0a7b7;--line:rgba(255,255,255,.09);--blue:#3478f6;--cyan:#41d9f4;--font:"Vazirmatn",Tahoma,sans-serif}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font);font-size:14px;line-height:1.8}.container{width:min(1180px,calc(100% - 48px));margin-inline:auto}
+/* Product image dark treatment */
+.product-image{background:radial-gradient(ellipse at 50% 55%,#1c2738 0%,#0e131c 50%,#0a0c12 100%)!important}.product-image img{mix-blend-mode:normal!important;opacity:.9;filter:brightness(.9) contrast(1.06) saturate(.88);transition:transform .55s cubic-bezier(.22,1,.36,1),filter .4s}.product-card:hover .product-image img{transform:scale(1.07);filter:brightness(1.02) contrast(1.08) saturate(1);opacity:1}.product-image::after{background:linear-gradient(0deg,#0b0d12f0 0%,transparent 40%)!important}
+/* Spacing */
+.product-grid{gap:18px}.section-space{padding-top:70px}.section-heading{margin-bottom:26px}.filter-bar{margin-bottom:20px}.benefits{padding:26px 0}
+/* Empty state */
+.empty-state{display:flex;flex-direction:column;align-items:center;text-align:center;padding:48px 24px;margin:16px 0;border:1px dashed #2a3548;border-radius:16px;background:#0e1219}.empty-state[hidden]{display:none!important}.empty-state h3{margin:0 0 8px;font-size:16px;color:#e2e8f4}.empty-state p{margin:0 0 18px;font-size:12.5px;color:#8793a8;max-width:300px;line-height:1.9}
+.sample-price{color:#7dd8ff!important;font-weight:700!important;font-size:12.5px!important}
+/* Animations */
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}@keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}@keyframes cardReveal{from{opacity:0;transform:translateY(16px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}@keyframes softOrbit{from{transform:rotate(0)}to{transform:rotate(360deg)}}@keyframes gradientShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+.anim-fade-up{animation:fadeUp .8s cubic-bezier(.22,1,.36,1) both}.anim-float{animation:floatY 6.5s ease-in-out infinite}.anim-card{animation:cardReveal .55s cubic-bezier(.22,1,.36,1) both}
+.hero-orbit{animation:softOrbit 48s linear infinite;border-style:dashed}.orbit-two{animation-direction:reverse;animation-duration:62s}.gradient-text{background-size:200% auto;animation:gradientShift 6s ease infinite}
+.product-card{transition:transform .35s cubic-bezier(.22,1,.36,1),box-shadow .35s,border-color .3s}.product-card:hover{transform:translateY(-7px) scale(1.01);box-shadow:0 20px 48px #0005;border-color:#3a587e}
+.hero-phone{transition:transform .5s cubic-bezier(.22,1,.36,1)}.hero-visual:hover .phone-front{transform:rotate(5deg) translateY(-8px) scale(1.03)}.hero-visual:hover .phone-back{transform:rotate(-10deg) translateY(6px)}
+.button-primary:hover{transform:translateY(-2px);box-shadow:0 10px 28px #3478f64a}.add-button:hover{transform:translateY(-1px)}
+@media(prefers-reduced-motion:reduce){.anim-fade-up,.anim-float,.anim-card,.hero-orbit,.gradient-text{animation:none!important}.product-card:hover,.hero-visual:hover .phone-front,.hero-visual:hover .phone-back{transform:none!important}}
