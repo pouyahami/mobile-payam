@@ -4,6 +4,8 @@ A Persian (RTL), responsive storefront concept with a premium/futuristic visual 
 
 ## Current scope
 - Responsive homepage and product discovery UI
+- Dedicated Apple, Samsung and Xiaomi brand landing pages with unique titles, descriptions, canonicals, Open Graph metadata and CollectionPage JSON-LD
+- Brand landing pages included in the sitemap and linked from homepage brand tiles
 - Search by product name/brand and brand filters
 - Mobile navigation
 - Demo cart interactions (no checkout or persistence)
