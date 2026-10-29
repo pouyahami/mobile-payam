@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://example.com/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
-  <url><loc>https://example.com/brands/apple/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://example.com/brands/samsung/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://example.com/brands/xiaomi/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://example.com/products/iphone-16-pro/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://example.com/products/iphone-15/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://example.com/products/galaxy-s25-ultra/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://example.com/products/xiaomi-15-ultra/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://mobile-payam.pages.dev/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://mobile-payam.pages.dev/brands/apple/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://mobile-payam.pages.dev/brands/samsung/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://mobile-payam.pages.dev/brands/xiaomi/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://mobile-payam.pages.dev/products/iphone-16-pro/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://mobile-payam.pages.dev/products/iphone-15/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://mobile-payam.pages.dev/products/galaxy-s25-ultra/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://mobile-payam.pages.dev/products/xiaomi-15-ultra/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://mobile-payam.pages.dev/products/iphone-17-pro/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://mobile-payam.pages.dev/products/iphone-16/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://mobile-payam.pages.dev/products/galaxy-s26-ultra/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://mobile-payam.pages.dev/products/galaxy-a56/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://mobile-payam.pages.dev/products/xiaomi-17/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://mobile-payam.pages.dev/products/redmi-note-14-pro/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://mobile-payam.pages.dev/products/poco-x7-pro/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://mobile-payam.pages.dev/products/galaxy-s25-plus/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
 </urlset>
