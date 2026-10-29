@@ -19,7 +19,6 @@
   let activeBrand = "all";
   let toastTimer;
 
-  // ---------- Helpers ----------
   const faDigits = value => String(value).replace(/\d/g, digit => "۰۱۲۳۴۵۶۷۸۹"[Number(digit)]);
   const faPrice = n => faDigits(n.toLocaleString("fa-IR")) + " میلیون تومان";
 
@@ -31,9 +30,7 @@
     toastTimer = window.setTimeout(() => toast.classList.remove("show"), duration);
   }
 
-  // ---------- Cart (localStorage) ----------
   const CART_KEY = "mobix_cart_v1";
-  const WISH_KEY = "mobix_wish_v1";
   const COMPARE_KEY = "mobix_compare_v1";
 
   function loadCart() {
@@ -42,13 +39,6 @@
   }
   function saveCart(items) {
     localStorage.setItem(CART_KEY, JSON.stringify(items));
-  }
-  function loadWish() {
-    try { return new Set(JSON.parse(localStorage.getItem(WISH_KEY) || "[]")); }
-    catch { return new Set(); }
-  }
-  function saveWish(set) {
-    localStorage.setItem(WISH_KEY, JSON.stringify([...set]));
   }
   function loadCompare() {
     try { return JSON.parse(localStorage.getItem(COMPARE_KEY) || "[]"); }
@@ -59,7 +49,6 @@
   }
 
   let cart = loadCart();
-  let wishlist = loadWish();
   let compare = loadCompare();
 
   function updateCartBadge() {
@@ -70,32 +59,17 @@
   function renderCart() {
     updateCartBadge();
     if (!cartItemsEl) return;
-
     if (cart.length === 0) {
       cartItemsEl.innerHTML = `<div class="cart-empty">سبد خرید خالی است.<br><small>محصولات مورد علاقه را اضافه کنید.</small></div>`;
       if (cartTotalEl) cartTotalEl.textContent = "۰";
       return;
     }
-
     let total = 0;
     cartItemsEl.innerHTML = cart.map(item => {
       const price = item.price || 0;
       total += price * item.qty;
-      return `
-        <div class="cart-item" data-id="${item.id}">
-          <div class="cart-item-info">
-            <strong>${item.name}</strong>
-            <span>${faPrice(price)}</span>
-          </div>
-          <div class="cart-item-actions">
-            <button class="qty-btn" data-action="dec" aria-label="کاهش">−</button>
-            <span class="qty">${faDigits(item.qty)}</span>
-            <button class="qty-btn" data-action="inc" aria-label="افزایش">+</button>
-            <button class="remove-btn" data-action="remove" aria-label="حذف">×</button>
-          </div>
-        </div>`;
+      return `<div class="cart-item" data-id="${item.id}"><div class="cart-item-info"><strong>${item.name}</strong><span>${faPrice(price)}</span></div><div class="cart-item-actions"><button class="qty-btn" data-action="dec" aria-label="کاهش">−</button><span class="qty">${faDigits(item.qty)}</span><button class="qty-btn" data-action="inc" aria-label="افزایش">+</button><button class="remove-btn" data-action="remove" aria-label="حذف">×</button></div></div>`;
     }).join("");
-
     if (cartTotalEl) cartTotalEl.textContent = faPrice(total);
   }
 
@@ -119,7 +93,6 @@
     notify(`«${name}» به سبد اضافه شد`);
   }
 
-  // ---------- Compare ----------
   function updateCompareUI() {
     if (!compareBar || !compareList) return;
     if (compare.length === 0) {
@@ -148,30 +121,8 @@
     }
     saveCompare(compare);
     updateCompareUI();
-    // Update button states on cards
-    document.querySelectorAll("[data-compare]").forEach(btn => {
-      const isActive = compare.some(c => c.id === btn.dataset.compare);
-      btn.classList.toggle("active", isActive);
-      btn.setAttribute("aria-pressed", String(isActive));
-    });
   }
 
-  // ---------- Wishlist ----------
-  function toggleWish(name, id = name) {
-    if (wishlist.has(id)) {
-      wishlist.delete(id);
-      notify(`«${name}» از علاقه‌مندی‌ها حذف شد`);
-    } else {
-      wishlist.add(id);
-      notify(`«${name}» به علاقه‌مندی‌ها اضافه شد`);
-    }
-    saveWish(wishlist);
-    document.querySelectorAll(`[data-wish="${id}"]`).forEach(btn => {
-      btn.classList.toggle("active", wishlist.has(id));
-    });
-  }
-
-  // ---------- Filter & Search ----------
   function filterProducts() {
     const term = (search?.value || "").trim().toLocaleLowerCase("fa");
     let visible = 0;
@@ -187,9 +138,19 @@
     if (emptyState) emptyState.hidden = visible !== 0;
   }
 
-  // ---------- Event listeners ----------
-  search?.addEventListener("input", filterProducts);
+  function resetFilters() {
+    activeBrand = "all";
+    if (search) search.value = "";
+    filters.forEach((item, index) => {
+      const selected = index === 0;
+      item.classList.toggle("active", selected);
+      item.setAttribute("aria-pressed", String(selected));
+    });
+    filterProducts();
+    document.querySelector("#products")?.scrollIntoView({ behavior: "smooth" });
+  }
 
+  search?.addEventListener("input", filterProducts);
   filters.forEach(button => button.addEventListener("click", () => {
     activeBrand = button.dataset.filter || "all";
     filters.forEach(item => {
@@ -200,25 +161,13 @@
     filterProducts();
   }));
 
-  document.querySelector("#clearFilters")?.addEventListener("click", event => {
-    event.preventDefault();
-    activeBrand = "all";
-    if (search) search.value = "";
-    filters.forEach((item, index) => {
-      const selected = index === 0;
-      item.classList.toggle("active", selected);
-      item.setAttribute("aria-pressed", String(selected));
-    });
-    filterProducts();
-    document.querySelector("#products")?.scrollIntoView({ behavior: "smooth" });
-  });
-
+  document.querySelector("#clearFilters")?.addEventListener("click", e => { e.preventDefault(); resetFilters(); });
+  document.querySelector("#resetSearchBtn")?.addEventListener("click", resetFilters);
   document.querySelector("#focusSearch")?.addEventListener("click", () => {
     search?.focus();
     search?.scrollIntoView({ behavior: "smooth", block: "center" });
   });
 
-  // Add to cart buttons
   document.querySelectorAll("[data-add]").forEach(button => {
     button.addEventListener("click", e => {
       e.preventDefault();
@@ -229,12 +178,10 @@
     });
   });
 
-  // Cart open/close
   document.querySelector("#cartButton")?.addEventListener("click", openCart);
   document.querySelector("#closeCart")?.addEventListener("click", closeCart);
   cartOverlay?.addEventListener("click", closeCart);
 
-  // Cart item actions (event delegation)
   cartItemsEl?.addEventListener("click", e => {
     const btn = e.target.closest("[data-action]");
     if (!btn) return;
@@ -243,20 +190,16 @@
     if (!id) return;
     const item = cart.find(i => i.id === id);
     if (!item) return;
-
     const action = btn.dataset.action;
     if (action === "inc") item.qty += 1;
     else if (action === "dec") {
       item.qty -= 1;
       if (item.qty <= 0) cart = cart.filter(i => i.id !== id);
-    } else if (action === "remove") {
-      cart = cart.filter(i => i.id !== id);
-    }
+    } else if (action === "remove") cart = cart.filter(i => i.id !== id);
     saveCart(cart);
     renderCart();
   });
 
-  // Clear cart
   document.querySelector("#clearCart")?.addEventListener("click", () => {
     cart = [];
     saveCart(cart);
@@ -264,17 +207,6 @@
     notify("سبد خرید خالی شد");
   });
 
-  // Compare buttons
-  document.querySelectorAll("[data-compare]").forEach(btn => {
-    const id = btn.dataset.compare;
-    if (compare.some(c => c.id === id)) btn.classList.add("active");
-    btn.addEventListener("click", e => {
-      e.preventDefault();
-      toggleCompare(btn.dataset.compareName || id, id);
-    });
-  });
-
-  // Remove from compare bar
   compareList?.addEventListener("click", e => {
     const btn = e.target.closest("[data-remove-compare]");
     if (!btn) return;
@@ -287,31 +219,9 @@
     compare = [];
     saveCompare(compare);
     updateCompareUI();
-    document.querySelectorAll("[data-compare]").forEach(btn => {
-      btn.classList.remove("active");
-      btn.setAttribute("aria-pressed", "false");
-    });
     notify("لیست مقایسه پاک شد");
   });
 
-  // Wishlist buttons
-  document.querySelectorAll("[data-wish]").forEach(btn => {
-    const id = btn.dataset.wish;
-    if (wishlist.has(id)) btn.classList.add("active");
-    btn.addEventListener("click", e => {
-      e.preventDefault();
-      toggleWish(btn.dataset.wishName || id, id);
-    });
-  });
-
-  // Brand quick links
-  document.querySelectorAll("[data-brand-link]").forEach(link => link.addEventListener("click", () => {
-    const brand = link.dataset.brandLink;
-    const button = filters.find(item => item.dataset.filter === brand);
-    if (button) button.click();
-  }));
-
-  // Mobile menu
   menuToggle?.addEventListener("click", () => {
     const open = menu?.classList.toggle("open") || false;
     menuToggle.setAttribute("aria-expanded", String(open));
@@ -321,11 +231,9 @@
     menuToggle?.setAttribute("aria-expanded", "false");
   }));
 
-  // Year
   const year = document.querySelector("#year");
   if (year) year.textContent = faDigits(new Date().getFullYear());
 
-  // Init
   renderCart();
   updateCompareUI();
   filterProducts();
