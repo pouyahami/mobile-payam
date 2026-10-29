@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Replace example.com with the verified production domain before launch.
+Sitemap: https://mobile-payam.pages.dev/sitemap.xml
