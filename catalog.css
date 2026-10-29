@@ -15,3 +15,27 @@
 .spec-table td{color:#f0f4fb}
 .spec-table tr:last-child th,.spec-table tr:last-child td{border-bottom:0}
 @media(max-width:600px){.spec-table th,.spec-table td{padding:11px;font-size:11px}.spec-table th{width:34%}}
+
+.directory-controls{margin:28px 0 20px}
+.directory-controls>label{display:block;margin-bottom:9px;font-size:12px;color:#c6d1e1}
+.directory-controls>input{display:block;width:100%;padding:15px 16px;border-radius:12px;border:1px solid #2a374b;background:#111722;color:#f4f7fc;font:inherit;font-size:13px;outline:none}
+.directory-controls>input:focus{border-color:var(--cyan);box-shadow:0 0 0 3px #41d9f422}
+.directory-filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:14px}
+.directory-filters .filter-chip{cursor:pointer}
+.directory-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px}
+.directory-card{min-width:0;overflow:hidden;border:1px solid #263246;border-radius:14px;background:#111722;transition:transform .2s,border-color .2s}
+.directory-card:hover{transform:translateY(-3px);border-color:#3a6580}
+.directory-card[hidden]{display:none!important}
+.directory-image{height:190px;position:relative;display:flex;align-items:center;justify-content:center;padding:12px;background:radial-gradient(ellipse at 50% 45%,#243c5b,#10151e 70%)}
+.directory-image img{width:100%;height:100%;object-fit:contain;position:relative;z-index:1;filter:drop-shadow(0 12px 12px #0005)}
+.directory-image-fallback{display:none;position:absolute;color:#9aabc2;font-size:12px}
+.directory-image.image-unavailable .directory-image-fallback{display:block}
+.directory-info{padding:13px}
+.directory-info>small{color:var(--cyan);font-size:10px}
+.directory-info h2{font-size:13px;line-height:1.8;min-height:46px;margin:5px 0}
+.directory-info p{font-size:10px;color:#8f9cb1;line-height:1.8;margin:0 0 10px}
+.directory-info>a{font-size:10px;color:#b9d8e8;text-decoration:none}
+.directory-info>a:hover{color:var(--cyan)}
+@media(max-width:1050px){.directory-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:760px){.directory-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.directory-image{height:155px}.directory-info{padding:10px}.directory-info h2{font-size:12px}}
+@media(max-width:480px){.directory-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.directory-image{height:170px}.directory-filters .filter-chip{font-size:10px;padding:8px}}
