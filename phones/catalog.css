@@ -104,6 +104,8 @@
   color: #fff;
 }
 .page-btn:disabled { opacity: .4; cursor: default; }
+
+/* Modal */
 .modal-overlay {
   position: fixed; inset: 0;
   background: rgba(3,5,10,.72);
@@ -195,6 +197,7 @@
   flex-wrap: wrap;
 }
 .modal-actions .btn { flex: 1; min-width: 140px; }
+
 @media (max-width: 960px) {
   .catalog-grid { grid-template-columns: repeat(2, 1fr); }
   .modal-top { grid-template-columns: 1fr; }

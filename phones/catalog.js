@@ -163,6 +163,7 @@
       </article>
     `).join("");
 
+    // pagination
     let html = "";
     html += `<button class="page-btn" data-page="prev" ${page <= 1 ? "disabled" : ""}>قبلی</button>`;
     const maxButtons = 7;
@@ -216,6 +217,7 @@
     document.body.style.overflow = "";
   }
 
+  // Events
   search?.addEventListener("input", () => { page = 1; applyFilters(); });
   sortSelect?.addEventListener("change", () => { page = 1; applyFilters(); });
   document.querySelector("#resetCatalog")?.addEventListener("click", () => {
@@ -283,6 +285,7 @@
     document.querySelector(".main-nav")?.classList.toggle("open");
   });
 
+  // Load data
   fetch("../data/phones.json")
     .then((r) => r.json())
     .then((data) => {

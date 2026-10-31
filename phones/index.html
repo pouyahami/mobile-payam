@@ -14,12 +14,14 @@
 </head>
 <body>
   <a class="skip-link" href="#catalog">رفتن به فهرست</a>
+
   <div class="announcement">
     <span class="announcement-dot"></span>
     بیش از ۲۵۰ مدل با مشخصات کامل
     <span class="announcement-sep">✦</span>
     موبایل پیام · نهاوند
   </div>
+
   <header class="site-header">
     <div class="container header-inner">
       <a class="brand" href="../">
@@ -44,6 +46,7 @@
       </div>
     </div>
   </header>
+
   <main id="catalog" class="container catalog-page">
     <div class="catalog-hero">
       <div>
@@ -56,6 +59,7 @@
         <div><b id="brandCount">—</b><span>برند</span></div>
       </div>
     </div>
+
     <div class="catalog-toolbar">
       <label class="search-box catalog-search">
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 4.5 4.5"/></svg>
@@ -77,20 +81,27 @@
         <span class="result-count" id="visibleCount">۰ محصول</span>
       </div>
     </div>
+
     <div class="product-grid catalog-grid" id="catalogGrid"></div>
+
     <div class="empty-state" id="emptyState" hidden>
       <div class="empty-icon">🔍</div>
       <h3>نتیجه‌ای پیدا نشد</h3>
       <p>عبارت یا فیلتر دیگری را امتحان کنید.</p>
       <button class="btn btn-ghost" id="resetCatalog">نمایش همه</button>
     </div>
+
     <div class="pagination" id="pagination"></div>
   </main>
+
+  <!-- Detail modal -->
   <div class="modal-overlay" id="modalOverlay" hidden></div>
   <div class="phone-modal" id="phoneModal" hidden role="dialog" aria-modal="true">
     <button class="modal-close" id="modalClose" aria-label="بستن">×</button>
     <div class="modal-body" id="modalBody"></div>
   </div>
+
+  <!-- Cart -->
   <div class="cart-overlay" id="cartOverlay"></div>
   <aside class="cart-drawer" id="cartDrawer" aria-label="سبد خرید">
     <div class="cart-header">
@@ -104,13 +115,16 @@
       <button class="btn btn-ghost" id="clearCart">خالی کردن سبد</button>
     </div>
   </aside>
+
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
   <footer class="site-footer">
     <div class="container footer-bottom" style="min-height:56px">
       <span>© موبایل پیام — نهاوند، روبروی بانک ملت مرکزی</span>
       <a href="../">بازگشت به صفحه اصلی</a>
     </div>
   </footer>
+
   <script src="catalog.js" defer></script>
 </body>
 </html>
