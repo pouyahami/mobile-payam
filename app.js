@@ -107,6 +107,7 @@
     filterProducts();
   }
 
+  // Events
   search?.addEventListener("input", filterProducts);
 
   chips.forEach((chip) => {
@@ -183,6 +184,7 @@
   const year = document.querySelector("#year");
   if (year) {
     const y = new Date().getFullYear();
+    // Simple Persian year approx
     year.textContent = fa(y - 621);
   }
 

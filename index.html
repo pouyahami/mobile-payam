@@ -22,6 +22,7 @@
 <body>
   <a class="skip-link" href="#main">رفتن به محتوای اصلی</a>
 
+  <!-- Announcement -->
   <div class="announcement">
     <span class="announcement-dot"></span>
     ارسال سریع در نهاوند
@@ -31,6 +32,7 @@
     مشاوره حضوری و تلفنی
   </div>
 
+  <!-- Header -->
   <header class="site-header">
     <div class="container header-inner">
       <a class="brand" href="./" aria-label="موبایل پیام">
@@ -45,7 +47,8 @@
 
       <nav class="main-nav" aria-label="منوی اصلی">
         <a class="nav-link active" href="#home">خانه</a>
-        <a class="nav-link" href="#products">گوشی‌ها</a>
+        <a class="nav-link" href="#products">منتخب‌ها</a>
+        <a class="nav-link" href="phones/">همه گوشی‌ها</a>
         <a class="nav-link" href="#brands">برندها</a>
         <a class="nav-link" href="#about">درباره ما</a>
         <a class="nav-link" href="#contact">تماس</a>
@@ -74,6 +77,7 @@
   </header>
 
   <main id="main">
+    <!-- Hero -->
     <section class="hero container" id="home">
       <div class="hero-copy">
         <div class="eyebrow"><span></span> فروشگاه تخصصی موبایل در نهاوند</div>
@@ -102,6 +106,7 @@
       </div>
     </section>
 
+    <!-- Benefits -->
     <section class="benefits container">
       <div class="benefit"><span class="b-icon">📱</span><div><strong>تنوع مدل‌ها</strong><small>اپل، سامسونگ، شیائومی</small></div></div>
       <div class="benefit"><span class="b-icon">🛡️</span><div><strong>ضمانت اصالت</strong><small>کالای اصل و معتبر</small></div></div>
@@ -109,12 +114,14 @@
       <div class="benefit"><span class="b-icon">📍</span><div><strong>موقعیت عالی</strong><small>روبروی بانک ملت مرکزی</small></div></div>
     </section>
 
+    <!-- Products -->
     <section class="products-section container" id="products">
       <div class="section-head">
         <div>
           <div class="eyebrow"><span></span> محصولات</div>
           <h2>انتخاب‌های <span class="gradient-text">محبوب</span></h2>
           <p>جدیدترین مدل‌های موجود در فروشگاه</p>
+          <a href="phones/" class="view-all" style="display:inline-block;margin-top:10px;font-size:12px;color:#41d9f4">مشاهده همه ۲۵۰+ مدل ←</a>
         </div>
       </div>
 
@@ -127,6 +134,7 @@
       </div>
 
       <div class="product-grid" id="productGrid">
+        <!-- Apple -->
         <article class="product-card" data-brand="apple" data-search="iphone 16 pro آیفون اپل">
           <div class="product-img">
             <span class="badge">پیشنهاد</span>
@@ -173,6 +181,7 @@
           </div>
         </article>
 
+        <!-- Samsung -->
         <article class="product-card" data-brand="samsung" data-search="galaxy s25 ultra سامسونگ">
           <div class="product-img">
             <span class="badge badge-alt">پرچمدار</span>
@@ -204,6 +213,7 @@
           </div>
         </article>
 
+        <!-- Xiaomi -->
         <article class="product-card" data-brand="xiaomi" data-search="xiaomi 15 ultra شیائومی">
           <div class="product-img">
             <span class="badge badge-alt">عکاسی</span>
@@ -259,6 +269,7 @@
       </div>
     </section>
 
+    <!-- Brands -->
     <section class="brands-section container" id="brands">
       <div class="section-head">
         <div>
@@ -274,6 +285,7 @@
       </div>
     </section>
 
+    <!-- About / Contact -->
     <section class="about-section container" id="about">
       <div class="about-grid">
         <div class="about-text">
@@ -301,12 +313,13 @@
             <span class="c-label">موقعیت</span>
             <span>روبروی بانک ملت مرکزی نهاوند</span>
           </div>
-          <a class="btn btn-primary contact-btn" href="https://maps.google.com/?q=%D9%86%D9%87%D8%A7%D9%88%D9%86%D8%AF+%D8%A8%D8%A7%D9%86%DA%A9+%D9%85%D9%84%D8%AA+%D9%85%D8%B1%DA%A9%D8%B2%DB%8C" target="_blank" rel="noopener">مسیریابی در نقشه ←</a>
+          <a class="btn btn-primary contact-btn" href="https://maps.google.com/?q=نهاوند+بانک+ملت+مرکزی" target="_blank" rel="noopener">مسیریابی در نقشه ←</a>
         </div>
       </div>
     </section>
   </main>
 
+  <!-- Footer -->
   <footer class="site-footer">
     <div class="container footer-inner">
       <div class="footer-brand">
@@ -335,6 +348,7 @@
     </div>
   </footer>
 
+  <!-- Cart Drawer -->
   <div class="cart-overlay" id="cartOverlay"></div>
   <aside class="cart-drawer" id="cartDrawer" aria-label="سبد خرید">
     <div class="cart-header">
